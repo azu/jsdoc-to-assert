@@ -5,7 +5,7 @@ import {parse} from "babylon";
 import traverse from "babel-traverse";
 import generate from "babel-generator";
 import template from "babel-template";
-import {ProgramString, FunctionDeclarationString} from "../src/jsdoc-to-assert";
+import Attachment from "../src/Attachment";
 describe("with babel", function () {
     it("should convert string", function () {
         const code = `
@@ -24,7 +24,7 @@ function myFunc(param, b, c){}
                 if (node.leadingComments && node.leadingComments.length === 1) {
                     const comment = node.leadingComments[0];
                     if (comment.type === 'CommentBlock') {
-                        const functionDeclarationString = FunctionDeclarationString(comment);
+                        const functionDeclarationString = Attachment.FunctionDeclarationString(comment);
                         const buildAssert = template(functionDeclarationString)();
                         path.get("body").unshiftContainer("body", buildAssert);
                     }

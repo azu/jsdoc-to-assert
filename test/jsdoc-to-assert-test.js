@@ -4,7 +4,7 @@ const assert = require("power-assert");
 const doctrine = require("doctrine");
 const astEqual = require("ast-equal").default;
 const escodegen = require("escodegen");
-import {toAST} from "../src/jsdoc-to-assert";
+import Attachment from "../src/Attachment";
 describe("jsdoc-to-assert", function () {
     it("should convert", function () {
         const code = `
@@ -14,7 +14,7 @@ describe("jsdoc-to-assert", function () {
  * @param {string[]} [c] - this is a param.
  */
 function myFunc(param, b, c){}`;
-        const AST = toAST(code);
+        const AST = Attachment.toASTFromCode(code);
         const result = escodegen.generate(AST, {
             comment: true
         });

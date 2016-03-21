@@ -3,7 +3,8 @@
 const assert = require("power-assert");
 const doctrine = require("doctrine");
 const astEqual = require("ast-equal").default;
-import {createAsserts, createAssertFromTag} from "../src/create-asserts";
+import AssertGenerator from "../src/AssertGenerator";
+const {createAsserts, createAssertFromTag} = AssertGenerator;
 function parse(commentValue) {
     return doctrine.parse(commentValue, {unwrap: true});
 }
