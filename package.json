@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/azu/jsdoc-to-assert/issues"
   },
-  "version": "1.1.2",
+  "version": "2.0.0",
   "description": "Convert comment to assert. runtime assert",
   "main": "lib/jsdoc-to-assert.js",
   "directories": {
