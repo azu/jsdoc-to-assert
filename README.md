@@ -1,4 +1,4 @@
-# jsdoc-to-assert
+# jsdoc-to-assert [![Build Status](https://travis-ci.org/azu/jsdoc-to-assert.svg?branch=master)](https://travis-ci.org/azu/jsdoc-to-assert)
 
 Convert JSDoc to `assert` that runtime assert.
 
