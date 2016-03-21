@@ -15,7 +15,12 @@ export default class CommentConverter {
          TODO: sloppy is not support
          It mean that optional param just ignored.
          */
-        const commentData = doctrine.parse(comment.value, {unwrap: true});
-        return AssertGenerator.createAsserts(commentData, options);
+        try {
+            const commentData = doctrine.parse(comment.value, {unwrap: true});
+            return AssertGenerator.createAsserts(commentData, options);
+        } catch (error) {
+            error.message = "jsdoc-to-assert: JSDoc Parse Error :" + error.message;
+            throw error;
+        }
     }
 }

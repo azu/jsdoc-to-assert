@@ -205,7 +205,7 @@ describe("create-assert", function () {
  * @param {Array<string>} x - this is Array param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(Array.isArray(x));`);
+            astEqual(numberAssertion, `Array.isArray(x);`);
         });
     });
 });
