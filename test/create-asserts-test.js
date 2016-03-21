@@ -22,6 +22,16 @@ describe("create-assert", function () {
             console.assert(results.length === 0);
         });
     });
+    context("when pass @return", function () {
+        it("should ignore ", function () {
+
+            const jsdoc = `/**
+ * @returns {Array}
+ */`;
+            const numberAssertion = createAssertFromTag(pickTag(jsdoc));
+            assert(numberAssertion == null);
+        });
+    });
     context("when pass jsdoc", function () {
         it("should return array", function () {
             const jsdoc = `

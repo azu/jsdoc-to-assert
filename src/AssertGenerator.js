@@ -43,6 +43,10 @@ export default class AssertGenerator {
      * https://github.com/eslint/doctrine/blob/master/test/parse.js
      */
     static createAssertFromTag(tagNode, generator = codeGenerator) {
+        const title = tagNode.title;
+        if (title !== "param") {
+            return
+        }
         const tagType = tagNode.type.type;
         if (tagType === "NameExpression") {
             return NameExpression(tagNode, generator);
