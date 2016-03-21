@@ -2,6 +2,6 @@
 "use strict";
 // @param {...} tag
  
-export function RestType(tag) {
+export function RestType(tag, CodeGenerator) {
 
 }

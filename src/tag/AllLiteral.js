@@ -3,10 +3,9 @@
 /*
     @param {*} x 
  */
-import CodeGenerator from "../CodeGenerator";
 /**
  * @return {string}
  */
-export function AllLiteral(tag) {
+export function AllLiteral(tag, CodeGenerator) {
     return CodeGenerator.assert(`(typeof ${tag.name} !== "undefined")`)
 }

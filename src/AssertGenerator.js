@@ -10,6 +10,9 @@ import {RecordType} from "./tag/RecordType";
 import {RestType} from "./tag/RestType";
 import {TypeApplication} from "./tag/TypeApplication";
 import {UnionType} from "./tag/UnionType";
+import CodeGenerator from "./CodeGenerator";
+// default code generator
+const codeGenerator = new CodeGenerator();
 export default class AssertGenerator {
     /**
      *
@@ -22,7 +25,10 @@ export default class AssertGenerator {
         }
         const isNotEmpty = (tag) => typeof tag !== undefined;
         // primitive
-        return comments.tags.map(AssertGenerator.createAssertFromTag).filter(isNotEmpty).map(AssertGenerator.unwrappedAST);
+        const createTag = (tag) => {
+            return AssertGenerator.createAssertFromTag(tag, codeGenerator);
+        };
+        return comments.tags.map(createTag).filter(isNotEmpty).map(AssertGenerator.unwrappedAST);
     }
 
     static unwrappedAST(string) {
@@ -31,30 +37,31 @@ export default class AssertGenerator {
 
     /**
      * @param tagNode tagNode is defined by doctorin
+     * @param {CodeGenerator} generator codeGenerator instance
      * @return {string} return assertion code string
      * Reference https://esdoc.org/tags.html#type-syntax
      * https://github.com/eslint/doctrine/blob/master/test/parse.js
      */
-    static createAssertFromTag(tagNode) {
+    static createAssertFromTag(tagNode, generator = codeGenerator) {
         const tagType = tagNode.type.type;
         if (tagType === "NameExpression") {
-            return NameExpression(tagNode);
+            return NameExpression(tagNode, generator);
         } else if (tagType === "AllLiteral") {
-            return AllLiteral(tagNode);
+            return AllLiteral(tagNode, generator);
         } else if (tagType === "FunctionType") {
-            return FunctionType(tagNode);
+            return FunctionType(tagNode, generator);
         } else if (tagType === "RecordType") {
-            return RecordType(tagNode);
+            return RecordType(tagNode, generator);
         } else if (tagType === "UnionType") {
-            return UnionType(tagNode);
+            return UnionType(tagNode, generator);
         } else if (tagType === "TypeApplication") {
-            return TypeApplication(tagNode);
+            return TypeApplication(tagNode, generator);
         } else if (tagType === "RestType") {
-            return RestType(tagNode);
+            return RestType(tagNode, generator);
         } else if (tagType === "NullableType") {
-            return NullableType(tagNode);
+            return NullableType(tagNode, generator);
         } else if (tagType === "NonNullableType") {
-            return NonNullableType(tagNode);
+            return NonNullableType(tagNode, generator);
         }
     }
 

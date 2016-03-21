@@ -1,6 +1,5 @@
 // LICENSE : MIT
 "use strict";
-import CodeGenerator from "../CodeGenerator";
 /**
  * @return {string}
  */

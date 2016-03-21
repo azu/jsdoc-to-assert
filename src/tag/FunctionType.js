@@ -2,10 +2,9 @@
 "use strict";
 // @param {Function}
 
-import CodeGenerator from "../CodeGenerator";
 /**
  * @return {string}
  */
-export function FunctionType(tag) {
+export function FunctionType(tag, CodeGenerator) {
     return CodeGenerator.assert(`typeof ${tag.name} === "function"`);
 }
