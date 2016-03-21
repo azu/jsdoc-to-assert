@@ -15,6 +15,8 @@ import {AssertGenerator, Attachment} from "jsdoc-to-assert";
 
 ### AssertGenerator class
 
+Create assertion AST from comment nodes.
+
     /**
      *
      * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
@@ -23,6 +25,8 @@ import {AssertGenerator, Attachment} from "jsdoc-to-assert";
     static createAsserts(comments) {}
 
 ### Attachment class
+
+Attach assertion node to AST/Node/Code.
 
     /**
      * FunctionDeclaration to FunctionDeclaration
