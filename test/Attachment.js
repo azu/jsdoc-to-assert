@@ -4,7 +4,7 @@ const esprima = require('esprima');
 const estraverse = require('estraverse');
 const escodegen = require("escodegen");
 const doctrine = require('doctrine');
-import AssertGenerator from "./AssertGenerator"
+import AssertGenerator from "../src/AssertGenerator"
 export default class Attachment {
 
     /**

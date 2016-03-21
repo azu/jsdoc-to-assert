@@ -1,6 +1,5 @@
 // LICENSE : MIT
 "use strict";
-const esprima = require("esprima");
 import {AllLiteral} from "./tag/AllLiteral";
 import {FunctionType} from "./tag/FunctionType";
 import {NameExpression} from "./tag/NameExpression";
@@ -13,31 +12,36 @@ import {UnionType} from "./tag/UnionType";
 import CodeGenerator from "./CodeGenerator";
 // default code generator
 const codeGenerator = new CodeGenerator();
+/**
+ * @typedef {Object} AssertGeneratorOptions
+ * @property {Function} generator
+ */
+const defaultOptions = {
+    generator: codeGenerator
+};
 export default class AssertGenerator {
     /**
      *
      * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
-     * @returns {Array}
+     * @param {AssertGeneratorOptions} options
+     * @returns {Array<String>} array of assertion
      */
-    static createAsserts(comments) {
+    static createAsserts(comments, options = {}) {
         if (comments == null) {
             return [];
         }
+        const generator = options.generator || defaultOptions.generator;
         const isNotEmpty = (tag) => typeof tag !== undefined;
         // primitive
         const createTag = (tag) => {
-            return AssertGenerator.createAssertFromTag(tag, codeGenerator);
+            return AssertGenerator.createAssertFromTag(tag, generator);
         };
-        return comments.tags.map(createTag).filter(isNotEmpty).map(AssertGenerator.unwrappedAST);
-    }
-
-    static unwrappedAST(string) {
-        return esprima.parse(string).body[0];
+        return comments.tags.map(createTag).filter(isNotEmpty);
     }
 
     /**
      * @param tagNode tagNode is defined by doctorin
-     * @param {CodeGenerator} generator codeGenerator instance
+     * @param {CodeGenerator} generator
      * @return {string} return assertion code string
      * Reference https://esdoc.org/tags.html#type-syntax
      * https://github.com/eslint/doctrine/blob/master/test/parse.js
@@ -69,4 +73,4 @@ export default class AssertGenerator {
         }
     }
 
-}
+};

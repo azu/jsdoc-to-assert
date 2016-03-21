@@ -13,6 +13,6 @@ export default class CodeGenerator {
         if (expression.indexOf(",") > 0) {
             throw new Error("should not contain ,");
         }
-        return `console.assert(${expression})`;
+        return `console.assert(${expression},'${expression}');`;
     }
 }

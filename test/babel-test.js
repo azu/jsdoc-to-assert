@@ -5,7 +5,8 @@ import {parse} from "babylon";
 import traverse from "babel-traverse";
 import generate from "babel-generator";
 import template from "babel-template";
-import Attachment from "../src/Attachment";
+import CommentConverter from "../src/CommentConverter";
+import TestGenerator from "./helper/TestCodeGenerator";
 describe("with babel", function () {
     it("should convert string", function () {
         const code = `
@@ -24,8 +25,8 @@ function myFunc(param, b, c){}
                 if (node.leadingComments && node.leadingComments.length === 1) {
                     const comment = node.leadingComments[0];
                     if (comment.type === 'CommentBlock') {
-                        const functionDeclarationString = Attachment.FunctionDeclarationString(comment);
-                        const buildAssert = template(functionDeclarationString)();
+                        const assertions = CommentConverter.toAsserts(comment).join("\n");
+                        const buildAssert = template(assertions)();
                         path.get("body").unshiftContainer("body", buildAssert);
                     }
                 }
@@ -47,8 +48,8 @@ function myFunc(param, b, c){}
  * @param {string[]} [c] - this is a param.
  */
 function myFunc(param, b, c) {
-  console.assert(typeof param === 'number');
-  console.assert(typeof b === 'string');
+  console.assert(typeof param === \"number\", 'typeof param === \"number\"');
+  console.assert(typeof b === \"string\", 'typeof b === \"string\"');
 }`);
     });
 });

@@ -1,5 +1,6 @@
 // LICENSE : MIT
 "use strict";
 import AssertGenerator from "./AssertGenerator"
-import Attachment from "./Attachment";
-export {AssertGenerator, Attachment};
+import CommentConverter from "./CommentConverter";
+import CodeGenerator from "./CodeGenerator";
+export {AssertGenerator, CommentConverter, CodeGenerator};
