@@ -54,7 +54,7 @@ import {AssertGenerator, Attachment} from "jsdoc-to-assert";
 }
 ## Tests
 
-- [ ] Write How to Tests
+    npm test
 
 ## Contributing
 
