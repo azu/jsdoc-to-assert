@@ -7,11 +7,11 @@ export function Expression(tagName, typeValue) {
     if (typeValue.type && typeValue.type === "NullableType") {
         // recursion
         const otherExpression = Expression(tagName, typeValue.expression);
-        return `(${tagName} === null || ${otherExpression})`;
+        return `(${tagName} == null || ${otherExpression})`;
     } else if (typeValue.type && typeValue.type === "NonNullableType") {
         // recursion
         const otherExpression = Expression(tagName, typeValue.expression);
-        return `(${tagName} !== null && ${otherExpression})`;
+        return `(${tagName} != null && ${otherExpression})`;
     } else {
         const expectedType = typeofName(typeValue.name);
         if (expectedType == null) {

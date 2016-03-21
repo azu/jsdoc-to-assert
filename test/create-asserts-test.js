@@ -99,6 +99,16 @@ describe("create-assert", function () {
             astEqual(numberAssertion, `typeof x !== "undefined"`);
         });
     });
+    context("when pass RegExp", function () {
+        it("should return assert typeof nullable", function () {
+            const A = {};
+            const jsdoc = `/**
+ * @param {RegExp} x - this is RegExp.
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `typeof RegExp === 'undefined' || typeof x instanceof RegExp`);
+        });
+    });
     context("when pass Custom Object", function () {
         it("should return assert typeof nullable", function () {
             const A = {};
@@ -118,13 +128,14 @@ describe("create-assert", function () {
             astEqual(numberAssertion, `Array.isArray(x)`);
         });
     });
+
     context("when pass nullable", function () {
         it("should return assert typeof nullable", function () {
             const jsdoc = `/**
  * @param {?number} x - this is nullable param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(x === null || typeof x === "number")`);
+            astEqual(numberAssertion, `(x == null || typeof x === "number")`);
         });
     });
     context("when pass NonNullableType", function () {
@@ -133,7 +144,7 @@ describe("create-assert", function () {
  * @param {!number} x - this is non-nullable param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(x !== null && typeof x === "number")`);
+            astEqual(numberAssertion, `(x != null && typeof x === "number")`);
         });
     });
     context("when pass callback function", function () {
@@ -158,20 +169,20 @@ describe("create-assert", function () {
             astEqual(numberAssertion, `(typeof x === "number" || typeof x === "string")`);
         });
     });
-    context("when pass ...spread", function () {
-        xit("should return ???", function () {
-            const jsdoc = `/**
- * @param {...number} param - this is spread param.
- */`;
-        });
-    });
+ //    context("when pass ...spread", function () {
+ //        it("should return ???", function () {
+ //            const jsdoc = `/**
+ // * @param {...number} param - this is spread param.
+ // */`;
+ //        });
+ //    });
     context("when pass RecordType", function () {
         it("should assert foo.bar as NullableType ", function () {
             const jsdoc = `/**
  * @param {{foo: ?number, bar: string}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `((x.foo === null || typeof x.foo === "number") && typeof x.bar === "string")`);
+            astEqual(numberAssertion, `((x.foo == null || typeof x.foo === "number") && typeof x.bar === "string")`);
         });
         it("should return assert foo filed with &&", function () {
             const jsdoc = `/**
@@ -179,6 +190,13 @@ describe("create-assert", function () {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `(typeof x.foo === "number" && typeof x.bar === "string")`);
+        });
+        it("should return assert Custom filed with &&", function () {
+            const jsdoc = `/**
+ * @param {{foo: number, bar: RegExp}} x - this is object param.
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `(typeof x.foo === "number" && (typeof RegExp === 'undefined' || typeof x.bar instanceof RegExp))`);
         });
     });
     context("When generic", function () {
