@@ -29,7 +29,9 @@ export default class AssertGenerator {
             return [];
         }
         const Generator = options.Generator || defaultOptions.Generator;
-        const isNotEmpty = (tag) => typeof tag !== undefined;
+        const isNotEmpty = (tag) => {
+            return tag != null;
+        };
         // primitive
         const createTag = (tag) => {
             return AssertGenerator.createAssertFromTag(tag, Generator);

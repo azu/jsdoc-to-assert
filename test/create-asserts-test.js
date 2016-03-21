@@ -109,13 +109,24 @@ describe("create-assert", function () {
         });
     });
     context("when pass RegExp", function () {
-        it("should return assert typeof nullable", function () {
+        it("should not throw error", function () {
             const A = {};
+            const jsdoc = `/**
+ * matchAll function inspired String.prototype.matchAll
+ * @param {string} text
+ * @param {RegExp} regExp
+ * @returns {MatchAllGroup[]}
+ * @see reference https://github.com/tc39/String.prototype.matchAll
+ */`;
+            const assertions = createAsserts(parse(jsdoc));
+            assert(assertions.length, 2);
+        });
+        it("should return assert typeof nullable", function () {
             const jsdoc = `/**
  * @param {RegExp} x - this is RegExp.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof RegExp === 'undefined' || typeof x instanceof RegExp`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof RegExp === 'undefined' || typeof x instanceof RegExp`);
         });
     });
     context("when pass Custom Object", function () {
