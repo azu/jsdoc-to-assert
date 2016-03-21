@@ -28,6 +28,40 @@ describe("create-assert", function () {
             console.assert(results.length === 0);
         });
     });
+    context("when pass multiple param", function () {
+        it("should not throw error", function () {
+            const A = {};
+            const jsdoc = `/**
+ * matchAll function inspired String.prototype.matchAll
+ * @param {string} text
+ * @param {RegExp} regExp
+ * @returns {MatchAllGroup[]}
+ * @see reference https://github.com/tc39/String.prototype.matchAll
+ */`;
+            const assertions = createAsserts(parse(jsdoc));
+            assert(assertions.length, 2);
+        });
+        it("should not contain line break in each assetion", function () {
+            const A = {};
+            const jsdoc = `/**
+ * matchAll function inspired String.prototype.matchAll
+ * @param {string} text
+ * @param {RegExp} regExp
+ * @param {{ 
+    
+ foo: String 
+ 
+ }} obj
+ * @returns {MatchAllGroup[]}
+ * @see reference https://github.com/tc39/String.prototype.matchAll
+ */`;
+            const assertions = createAsserts(parse(jsdoc));
+            assertions.forEach(assertion => {
+                console.log(assertion);
+                assert(assertion.indexOf("\n") === -1);
+            });
+        });
+    });
     context("when pass no-typed param", function () {
         it("should ignore ", function () {
 
@@ -109,18 +143,7 @@ describe("create-assert", function () {
         });
     });
     context("when pass RegExp", function () {
-        it("should not throw error", function () {
-            const A = {};
-            const jsdoc = `/**
- * matchAll function inspired String.prototype.matchAll
- * @param {string} text
- * @param {RegExp} regExp
- * @returns {MatchAllGroup[]}
- * @see reference https://github.com/tc39/String.prototype.matchAll
- */`;
-            const assertions = createAsserts(parse(jsdoc));
-            assert(assertions.length, 2);
-        });
+
         it("should return assert typeof nullable", function () {
             const jsdoc = `/**
  * @param {RegExp} x - this is RegExp.
@@ -189,13 +212,13 @@ describe("create-assert", function () {
             astEqual(numberAssertion, `(typeof x === "number" || typeof x === "string")`);
         });
     });
- //    context("when pass ...spread", function () {
- //        it("should return ???", function () {
- //            const jsdoc = `/**
- // * @param {...number} param - this is spread param.
- // */`;
- //        });
- //    });
+    //    context("when pass ...spread", function () {
+    //        it("should return ???", function () {
+    //            const jsdoc = `/**
+    // * @param {...number} param - this is spread param.
+    // */`;
+    //        });
+    //    });
     context("when pass RecordType", function () {
         it("should assert foo.bar as NullableType ", function () {
             const jsdoc = `/**

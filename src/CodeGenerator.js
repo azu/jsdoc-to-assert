@@ -16,6 +16,7 @@ export default class CodeGenerator {
         if (expression.indexOf(",") > 0) {
             throw new Error("should not contain ,");
         }
-        return `console.assert(${expression},'${expression}');`;
+        const noSpaceExpression = expression.trim().replace(/\n/g, "\\n");
+        return `console.assert(${noSpaceExpression},'${noSpaceExpression}');`;
     }
 }
