@@ -149,7 +149,7 @@ describe("create-assert", function () {
  * @param {RegExp} x - this is RegExp.
  */`;
             const assertion = createAssertion(jsdoc);
-            astEqual(assertion, `typeof RegExp === 'undefined' || typeof x instanceof RegExp`);
+            astEqual(assertion, `typeof RegExp === 'undefined' || x instanceof RegExp`);
         });
     });
     context("when pass Custom Object", function () {
@@ -159,7 +159,7 @@ describe("create-assert", function () {
  * @param {A} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof A === 'undefined' || typeof x instanceof A`);
+            astEqual(numberAssertion, `typeof A === 'undefined' || x instanceof A`);
         });
     });
     context("when pass ArrayType", function () {
@@ -239,7 +239,7 @@ describe("create-assert", function () {
  * @param {{foo: number, bar: RegExp}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(typeof x.foo === "number" && (typeof RegExp === 'undefined' || typeof x.bar instanceof RegExp))`);
+            astEqual(numberAssertion, `(typeof x.foo === "number" && (typeof RegExp === 'undefined' || x.bar instanceof RegExp))`);
         });
     });
     context("When generic", function () {
