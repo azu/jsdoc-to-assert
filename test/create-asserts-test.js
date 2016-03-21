@@ -73,7 +73,7 @@ describe("create-assert", function () {
         });
     });
     context("When pass all type", function () {
-        it("should return assert either undefined ", function () {
+        it("should return assert AllLiteral ", function () {
             const jsdoc = `/**
  * @param {*} x - this is ArrayType param.
  */`;
@@ -147,7 +147,7 @@ describe("create-assert", function () {
  */`;
         });
     });
-    context("when pass Record ", function () {
+    context("when pass RecordType", function () {
         it("should assert foo.bar as NullableType ", function () {
             const jsdoc = `/**
  * @param {{foo: ?number, bar: string}} x - this is object param.

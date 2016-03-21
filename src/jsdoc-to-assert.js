@@ -6,22 +6,6 @@ const escodegen = require("escodegen");
 const doctrine = require('doctrine');
 import {createAsserts} from "./create-asserts"
 /**
- * Inject assert to Program body
- * This is mutable function.
- * @param AST
- */
-export function Program(AST) {
-    const powerAssertDeclaration = esprima.parse(ProgramString());
-    AST.body.unshift(powerAssertDeclaration.body[0]);
-    return AST;
-}
-/**
- * @return {string}
- */
-export function ProgramString() {
-    return `var assert = require("assert")`;
-}
-/**
  * FunctionDeclaration to FunctionDeclaration
  * This is mutable function.
  * @param node
@@ -33,17 +17,13 @@ export function FunctionDeclaration(node, comment) {
      TODO: sloppy is not support
      It mean that optional param just ignored.
      */
-    var commentData = doctrine.parse(comment.value, {unwrap: true});
-    var assertsAST = createAsserts(commentData);
+    const commentData = doctrine.parse(comment.value, {unwrap: true});
+    const assertsAST = createAsserts(commentData);
     const body = node.body.body;
     body.unshift(...assertsAST);
     return node;
 }
 export function FunctionDeclarationString(comment) {
-    /*
-     TODO: sloppy is not support
-     It mean that optional param just ignored.
-     */
     var commentData = doctrine.parse(comment.value, {unwrap: true});
     var assertsAST = createAsserts(commentData);
     return escodegen.generate({
@@ -54,8 +34,6 @@ export function FunctionDeclarationString(comment) {
 
 function replaceWalk(node) {
     switch (node.type) {
-        case esprima.Syntax.Program:
-            return Program(node);
         case esprima.Syntax.FunctionDeclaration:
             if (node.leadingComments && node.leadingComments.length === 1) {
                 const comment = node.leadingComments[0];
