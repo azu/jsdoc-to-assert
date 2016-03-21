@@ -57,7 +57,6 @@ describe("create-assert", function () {
  */`;
             const assertions = createAsserts(parse(jsdoc));
             assertions.forEach(assertion => {
-                console.log(assertion);
                 assert(assertion.indexOf("\n") === -1);
             });
         });
