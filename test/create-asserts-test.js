@@ -1,6 +1,7 @@
 // LICENSE : MIT
 "use strict";
 const assert = require("power-assert");
+const esprima = require("esprima");
 const doctrine = require("doctrine");
 const astEqual = require("ast-equal").default;
 import AssertGenerator from "../src/AssertGenerator";
@@ -57,7 +58,7 @@ describe("create-assert", function () {
  */`;
             const assertions = createAsserts(parse(jsdoc));
             assertions.forEach(assertion => {
-                assert(assertion.indexOf("\n") === -1);
+                esprima.parse(assertion);
             });
         });
     });
