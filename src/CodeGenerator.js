@@ -16,6 +16,7 @@ export default class CodeGenerator {
         if (expression.indexOf(",") > 0) {
             throw new Error("should not contain ,");
         }
+        // TODO: more safe using AST?
         const trimmedExpression = expression.trim();
         const noSpaceExpression = trimmedExpression.replace(/\n/g, "\\n");
         return `console.assert(${trimmedExpression},'${noSpaceExpression}');`;
