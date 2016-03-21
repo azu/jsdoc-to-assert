@@ -22,11 +22,27 @@ import {AssertGenerator, CommentConverter, CodeGenerator} from "jsdoc-to-assert"
 Create assertion AST from comment nodes.
 
     /**
+     * @typedef {Object} AssertGeneratorOptions
+     * @property {Function} generator
+     */
+    const defaultOptions = {
+        Generator: CodeGenerator
+    };
+    /**
      *
      * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
-     * @returns {Array} array of assert code string
+     * @param {AssertGeneratorOptions} options
+     * @returns {Array<String>} array of assertion
      */
-    static createAsserts(comments);
+    static createAsserts(comments, options = {});
+    /**
+     * @param tagNode tagNode is defined by doctorin
+     * @param {CodeGenerator} Generator
+     * @return {string|undefined} return assertion code string
+     * Reference https://esdoc.org/tags.html#type-syntax
+     * https://github.com/eslint/doctrine/blob/master/test/parse.js
+     */
+    static createAssertFromTag(tagNode, Generator = CodeGenerator);
 
 ### CommentConverter class
 
@@ -44,6 +60,10 @@ Create assertion AST from comment nodes.
 
 Assertion code generator class
 
+    /**
+     * @param commentTagNode commentTagNode is doctrine tag node
+     */
+    constructor(commentTagNode);
     /**
      * wrap assert function
      * @param {string} expression

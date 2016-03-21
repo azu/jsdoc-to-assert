@@ -17,8 +17,7 @@ function pickTag(commentValue) {
     return results.tags[0];
 }
 function createAssertion(jsdoc) {
-    const testGenerator = new TestGenerator();
-    return createAssertFromTag(pickTag(jsdoc), testGenerator);
+    return createAssertFromTag(pickTag(jsdoc), TestGenerator);
 }
 
 describe("create-assert", function () {

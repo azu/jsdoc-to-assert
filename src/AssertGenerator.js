@@ -10,14 +10,12 @@ import {RestType} from "./tag/RestType";
 import {TypeApplication} from "./tag/TypeApplication";
 import {UnionType} from "./tag/UnionType";
 import CodeGenerator from "./CodeGenerator";
-// default code generator
-const codeGenerator = new CodeGenerator();
 /**
  * @typedef {Object} AssertGeneratorOptions
  * @property {Function} generator
  */
 const defaultOptions = {
-    generator: codeGenerator
+    Generator: CodeGenerator
 };
 export default class AssertGenerator {
     /**
@@ -30,23 +28,23 @@ export default class AssertGenerator {
         if (comments == null) {
             return [];
         }
-        const generator = options.generator || defaultOptions.generator;
+        const Generator = options.Generator || defaultOptions.Generator;
         const isNotEmpty = (tag) => typeof tag !== undefined;
         // primitive
         const createTag = (tag) => {
-            return AssertGenerator.createAssertFromTag(tag, generator);
+            return AssertGenerator.createAssertFromTag(tag, Generator);
         };
         return comments.tags.map(createTag).filter(isNotEmpty);
     }
 
     /**
      * @param tagNode tagNode is defined by doctorin
-     * @param {CodeGenerator} generator
+     * @param {CodeGenerator} Generator
      * @return {string|undefined} return assertion code string
      * Reference https://esdoc.org/tags.html#type-syntax
      * https://github.com/eslint/doctrine/blob/master/test/parse.js
      */
-    static createAssertFromTag(tagNode, generator = codeGenerator) {
+    static createAssertFromTag(tagNode, Generator = CodeGenerator) {
         const title = tagNode.title;
         // @returns etc... are not param
         if (title !== "param") {
@@ -56,6 +54,7 @@ export default class AssertGenerator {
         if (tagNode.type == null) {
             return;
         }
+        const generator = new Generator(tagNode);
         const tagType = tagNode.type.type;
         if (tagType === "NameExpression") {
             return NameExpression(tagNode, generator);
@@ -77,5 +76,4 @@ export default class AssertGenerator {
             return NonNullableType(tagNode, generator);
         }
     }
-
 };

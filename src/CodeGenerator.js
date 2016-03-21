@@ -1,9 +1,12 @@
 // LICENSE : MIT
 "use strict";
-/**
- * @class
- */
 export default class CodeGenerator {
+    /**
+     * @param commentTagNode commentTagNode is doctrine tag node
+     */
+    constructor(commentTagNode) {
+    }
+
     /**
      * wrap assert function
      * @param {string} expression
