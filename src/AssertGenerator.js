@@ -48,9 +48,11 @@ export default class AssertGenerator {
      */
     static createAssertFromTag(tagNode, generator = codeGenerator) {
         const title = tagNode.title;
+        // @returns etc... are not param
         if (title !== "param") {
             return;
         }
+        // @param x - x have not type
         if (tagNode.type == null) {
             return;
         }

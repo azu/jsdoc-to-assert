@@ -4,11 +4,12 @@ const doctrine = require('doctrine');
 import AssertGenerator from "./AssertGenerator"
 export default class CommentConverter {
     /**
-     * FunctionDeclaration to FunctionDeclaration
+     * Parse comment nodes which is provided by JavaScript parser like esprima, babylon
+     * and return assertions code strings.
      * This is mutable function.
      * @param {Array<Object>} comment
-     * @param {options} [options]
-     * @returns {Object}
+     * @param {AssertGeneratorOptions} [options]
+     * @returns {string[]}
      */
     static toAsserts(comment, options) {
         /*

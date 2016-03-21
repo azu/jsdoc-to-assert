@@ -2,6 +2,10 @@
 
 Convert JSDoc to `assert` that runtime assert.
 
+Easy to use it with Babel.
+
+- [azu/babel-plugin-jsdoc-to-assert: Babel plugin for jsdoc-to-assert.](https://github.com/azu/babel-plugin-jsdoc-to-assert "azu/babel-plugin-jsdoc-to-assert: Babel plugin for jsdoc-to-assert.")
+
 ## Installation
 
     npm install jsdoc-to-assert
@@ -9,7 +13,7 @@ Convert JSDoc to `assert` that runtime assert.
 ## Usage
 
 ```js
-import {AssertGenerator, Attachment} from "jsdoc-to-assert";
+import {AssertGenerator, CommentConverter, CodeGenerator} from "jsdoc-to-assert";
 ```
 
 
@@ -20,42 +24,35 @@ Create assertion AST from comment nodes.
     /**
      *
      * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
-     * @returns {Array} array of assert AST node that is unwrapped 
+     * @returns {Array} array of assert code string
      */
-    static createAsserts(comments) {}
+    static createAsserts(comments);
 
-### Attachment class
-
-Attach assertion node to AST/Node/Code.
+### CommentConverter class
 
     /**
-     * FunctionDeclaration to FunctionDeclaration
+     * Parse comment nodes which is provided by JavaScript parser like esprima, babylon 
+     * and return assertions code strings.
      * This is mutable function.
-     * @param node
-     * @param comment
-     * @returns {Object}
+     * @param {Array<Object>} comment
+     * @param {AssertGeneratorOptions} [options]
+     * @returns {string[]}
      */
-    static FunctionDeclaration(node, comment);
+    static toAsserts(comment, options);    
+
+### CodeGenerator class
+
+Assertion code generator class
 
     /**
-     * @param {Array<Object>} comment
+     * wrap assert function
+     * @param {string} expression
      * @returns {string}
      */
-    static FunctionDeclarationString(comment);
+    assert(expression) {
+        return `console.assert(${expression},'${expression}');`;
+    }
 
-    /**
-     * AST to AST
-     * mutable function
-     * @param {Object} AST
-     * @returns {Object}
-     */
-    static toASTFromAST(AST);
-    /**
-     * Code to AST
-     * @param {string} content
-     */
-    static toASTFromCode(content);
-}
 ## Tests
 
     npm test
