@@ -2,6 +2,7 @@
 "use strict";
 const esprima = require('esprima');
 const estraverse = require('estraverse');
+const escodegen = require("escodegen");
 const doctrine = require('doctrine');
 import {createAsserts} from "./create-asserts"
 /**
@@ -10,9 +11,15 @@ import {createAsserts} from "./create-asserts"
  * @param AST
  */
 export function Program(AST) {
-    const powerAssertDeclaration = esprima.parse(`var assert = require("assert")`);
+    const powerAssertDeclaration = esprima.parse(ProgramString());
     AST.body.unshift(powerAssertDeclaration.body[0]);
     return AST;
+}
+/**
+ * @return {string}
+ */
+export function ProgramString() {
+    return `var assert = require("assert")`;
 }
 /**
  * FunctionDeclaration to FunctionDeclaration
@@ -31,6 +38,18 @@ export function FunctionDeclaration(node, comment) {
     const body = node.body.body;
     body.unshift(...assertsAST);
     return node;
+}
+export function FunctionDeclarationString(comment) {
+    /*
+     TODO: sloppy is not support
+     It mean that optional param just ignored.
+     */
+    var commentData = doctrine.parse(comment.value, {unwrap: true});
+    var assertsAST = createAsserts(commentData);
+    return escodegen.generate({
+        type: esprima.Syntax.Program,
+        body: assertsAST
+    });
 }
 
 function replaceWalk(node) {

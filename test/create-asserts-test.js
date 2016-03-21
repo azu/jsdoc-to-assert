@@ -9,16 +9,16 @@ function parse(commentValue) {
 }
 function pickTag(commentValue) {
     const results = parse(commentValue);
-    assert(results != null);
-    assert(results.tags.length > 0);
+    console.assert(results != null);
+    console.assert(results.tags.length > 0);
     return results.tags[0];
 }
 describe("create-assert", function () {
     context("when pass null", function () {
         it("should return []", function () {
             const results = createAsserts(null);
-            assert(Array.isArray(results));
-            assert(results.length === 0);
+            console.assert(Array.isArray(results));
+            console.assert(results.length === 0);
         });
     });
     context("when pass jsdoc", function () {
@@ -31,8 +31,8 @@ describe("create-assert", function () {
  */
 `;
             const results = createAsserts(parse(jsdoc));
-            assert(Array.isArray(results));
-            assert(results.length === 1);
+            console.assert(Array.isArray(results));
+            console.assert(results.length === 1);
         });
     });
     context("when pass primitive type", function () {
@@ -41,35 +41,35 @@ describe("create-assert", function () {
  * @param {number} x
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "number")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "number")`);
         });
         it("should return assert typeof string", function () {
             const jsdoc = `/**
  * @param {string} x
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "string")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "string")`);
         });
         it("should return assert typeof boolean", function () {
             const jsdoc = `/**
  * @param {boolean} x
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "boolean")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "boolean")`);
         });
         it("should return assert typeof function", function () {
             const jsdoc = `/**
  * @param {Function} x
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "function")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "function")`);
         });
         it("should return assert typeof object", function () {
             const jsdoc = `/**
  * @param {Object} x
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "object")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "object")`);
         });
     });
     context("When pass all type", function () {
@@ -78,7 +78,7 @@ describe("create-assert", function () {
  * @param {*} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x !== "undefined");`);
+            astEqual(numberAssertion, `console.assert(typeof x !== "undefined");`);
         });
     });
     context("when pass Custom Object", function () {
@@ -88,7 +88,7 @@ describe("create-assert", function () {
  * @param {A} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof A === 'undefined' || typeof x instanceof A);`);
+            astEqual(numberAssertion, `console.assert(typeof A === 'undefined' || typeof x instanceof A);`);
         });
     });
     context("when pass ArrayType", function () {
@@ -97,7 +97,7 @@ describe("create-assert", function () {
  * @param {number[]} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(Array.isArray(x));`);
+            astEqual(numberAssertion, `console.assert(Array.isArray(x));`);
         });
     });
     context("when pass nullable", function () {
@@ -106,7 +106,7 @@ describe("create-assert", function () {
  * @param {?number} x - this is nullable param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert((x === null || typeof x === "number"));`);
+            astEqual(numberAssertion, `console.assert((x === null || typeof x === "number"));`);
         });
     });
     context("when pass NonNullableType", function () {
@@ -115,7 +115,7 @@ describe("create-assert", function () {
  * @param {!number} x - this is non-nullable param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert((x !== null && typeof x === "number"));`);
+            astEqual(numberAssertion, `console.assert((x !== null && typeof x === "number"));`);
         });
     });
     context("when pass callback function", function () {
@@ -124,7 +124,7 @@ describe("create-assert", function () {
  * @param {function(foo: number, bar: string): boolean} x - this is function param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "function")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "function")`);
         });
 
     });
@@ -137,7 +137,7 @@ describe("create-assert", function () {
  * @param {number|string} x - this is union param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x === "number" || typeof x === "string")`);
+            astEqual(numberAssertion, `console.assert(typeof x === "number" || typeof x === "string")`);
         });
     });
     context("when pass ...spread", function () {
@@ -153,14 +153,14 @@ describe("create-assert", function () {
  * @param {{foo: ?number, bar: string}} x - this is object param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert((x.foo === null || typeof x.foo === "number") && typeof x.bar === "string")`);
+            astEqual(numberAssertion, `console.assert((x.foo === null || typeof x.foo === "number") && typeof x.bar === "string")`);
         });
         it("should return assert foo filed with &&", function () {
             const jsdoc = `/**
  * @param {{foo: number, bar: string}} x - this is object param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(typeof x.foo === "number" && typeof x.bar === "string")`);
+            astEqual(numberAssertion, `console.assert(typeof x.foo === "number" && typeof x.bar === "string")`);
         });
     });
     context("When generic", function () {
@@ -169,7 +169,7 @@ describe("create-assert", function () {
  * @param {Array<string>} x - this is Array param.
  */`;
             const numberAssertion = createAssertFromTag(pickTag(jsdoc));
-            astEqual(numberAssertion, `assert(Array.isArray(x));`);
+            astEqual(numberAssertion, `console.assert(Array.isArray(x));`);
         });
     });
 });

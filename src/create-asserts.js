@@ -12,6 +12,13 @@ export function createAsserts(comments) {
     // primitive
     return comments.tags.map(createAssertFromTag).filter(isNotEmpty);
 }
+
+export function assertCodeGenerator(expression) {
+    if(expression.indexOf(",") > 0) {
+        throw new Error("should not contain ,");
+    }
+    return `console.assert(${expression})`;
+}
 /**
  * @param tagNode tagNode is defined by doctorin
  * Reference https://esdoc.org/tags.html#type-syntax
@@ -41,7 +48,7 @@ export function createAssertFromTag(tagNode) {
 }
 
 function AllLiteral(tag) {
-    return unwrapToAST(`assert(typeof ${tag.name} !== "undefined");`);
+    return unwrapToAST(assertCodeGenerator(`(typeof ${tag.name} !== "undefined")`));
 }
 function RestType(tag) {
 
@@ -53,36 +60,36 @@ function RecordType(tag) {
         const fieldPath = `${tag.name}.${field.key}`;
         return Expression(fieldPath, field.value);
     }).join(" && ");
-    return unwrapToAST(`assert(${expression});`);
+    return unwrapToAST(assertCodeGenerator(expression));
 }
 function UnionType(tag) {
     const elements = tag.type.elements;
     const expression = elements.map(element => {
         return Expression(tag.name, element);
     }).join(" || ");
-    return unwrapToAST(`assert(${expression});`);
+    return unwrapToAST(assertCodeGenerator(expression));
 }
 // typeof function
 function FunctionType(tag) {
-    return unwrapToAST(`assert(typeof ${tag.name} === "function");`);
+    return unwrapToAST(assertCodeGenerator(`typeof ${tag.name} === "function"`));
 }
 function TypeApplication(tag) {
     const expectedType = tag.type.expression.name;
     if (expectedType === "Array") {
-        return unwrapToAST(`assert(Array.isArray(${tag.name}));`);
+        return unwrapToAST(assertCodeGenerator(`Array.isArray(${tag.name})`));
     }
 }
 function NonNullableType(tag) {
     const expression = Expression(tag.name, tag.type);
-    return unwrapToAST(`assert(${expression});`);
+    return unwrapToAST(assertCodeGenerator(expression));
 }
 function NullableType(tag) {
     const expression = Expression(tag.name, tag.type);
-    return unwrapToAST(`assert(${expression});`);
+    return unwrapToAST(assertCodeGenerator(expression));
 }
 function NameExpression(tag) {
     const expression = Expression(tag.name, tag.type);
-    return unwrapToAST(`assert(${expression});`);
+    return unwrapToAST(assertCodeGenerator(expression));
 }
 /**
  * @return {string}
