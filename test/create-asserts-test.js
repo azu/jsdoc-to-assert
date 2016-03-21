@@ -29,6 +29,16 @@ describe("create-assert", function () {
             console.assert(results.length === 0);
         });
     });
+    context("when pass no-typed param", function () {
+        it("should ignore ", function () {
+
+            const jsdoc = `/**
+ * @param x
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            assert(numberAssertion == null);
+        });
+    });
     context("when pass @return", function () {
         it("should ignore ", function () {
 

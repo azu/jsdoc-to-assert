@@ -42,14 +42,17 @@ export default class AssertGenerator {
     /**
      * @param tagNode tagNode is defined by doctorin
      * @param {CodeGenerator} generator
-     * @return {string} return assertion code string
+     * @return {string|undefined} return assertion code string
      * Reference https://esdoc.org/tags.html#type-syntax
      * https://github.com/eslint/doctrine/blob/master/test/parse.js
      */
     static createAssertFromTag(tagNode, generator = codeGenerator) {
         const title = tagNode.title;
         if (title !== "param") {
-            return
+            return;
+        }
+        if (tagNode.type == null) {
+            return;
         }
         const tagType = tagNode.type.type;
         if (tagType === "NameExpression") {

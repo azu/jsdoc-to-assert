@@ -19,7 +19,7 @@ export default class CommentConverter {
             const commentData = doctrine.parse(comment.value, {unwrap: true});
             return AssertGenerator.createAsserts(commentData, options);
         } catch (error) {
-            error.message = "jsdoc-to-assert: JSDoc Parse Error :" + error.message;
+            error.message = "jsdoc-to-assert: JSDoc Parse Error:\n" + error.message;
             throw error;
         }
     }
