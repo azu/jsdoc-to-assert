@@ -8,8 +8,50 @@ Convert JSDoc to `assert` that runtime assert.
 
 ## Usage
 
-- [ ] Write usage instructions
+```js
+import {AssertGenerator, Attachment} from "jsdoc-to-assert";
+```
 
+
+### AssertGenerator class
+
+    /**
+     *
+     * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
+     * @returns {Array} array of assert AST node that is unwrapped 
+     */
+    static createAsserts(comments) {}
+
+### Attachment class
+
+    /**
+     * FunctionDeclaration to FunctionDeclaration
+     * This is mutable function.
+     * @param node
+     * @param comment
+     * @returns {Object}
+     */
+    static FunctionDeclaration(node, comment);
+
+    /**
+     * @param {Array<Object>} comment
+     * @returns {string}
+     */
+    static FunctionDeclarationString(comment);
+
+    /**
+     * AST to AST
+     * mutable function
+     * @param {Object} AST
+     * @returns {Object}
+     */
+    static toASTFromAST(AST);
+    /**
+     * Code to AST
+     * @param {string} content
+     */
+    static toASTFromCode(content);
+}
 ## Tests
 
 - [ ] Write How to Tests
