@@ -77,6 +77,11 @@ Assertion code generator class
 
     npm test
 
+## Realated
+
+- FlowType: [codemix/babel-plugin-typecheck: Static and runtime type checking for JavaScript in the form of a Babel plugin.](https://github.com/codemix/babel-plugin-typecheck)
+- TypeScript: [Proposal: Run-time Type Checks · Issue #7607 · Microsoft/TypeScript](https://github.com/Microsoft/TypeScript/issues/7607 "Proposal: Run-time Type Checks · Issue #7607 · Microsoft/TypeScript")
+
 ## Contributing
 
 1. Fork it!
@@ -88,3 +93,4 @@ Assertion code generator class
 ## License
 
 MIT
+
