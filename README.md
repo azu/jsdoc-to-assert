@@ -82,6 +82,11 @@ Assertion code generator class
 - FlowType: [codemix/babel-plugin-typecheck: Static and runtime type checking for JavaScript in the form of a Babel plugin.](https://github.com/codemix/babel-plugin-typecheck)
 - TypeScript: [Proposal: Run-time Type Checks · Issue #7607 · Microsoft/TypeScript](https://github.com/Microsoft/TypeScript/issues/7607 "Proposal: Run-time Type Checks · Issue #7607 · Microsoft/TypeScript")
 
+Comment to assert
+
+- [azu/comment-to-assert: convert single line comment to assert.](https://github.com/azu/comment-to-assert)
+- [azu/power-doctest: JavaScript: doctest + power-assert.](https://github.com/azu/power-doctest)
+
 ## Contributing
 
 1. Fork it!
