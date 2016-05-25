@@ -48,8 +48,13 @@ function myFunc(param, b, c){}
  * @param {string[]} [c] - this is a param.
  */
 function myFunc(param, b, c) {
-  console.assert(typeof param === \"number\", 'typeof param === \"number\"');
-  console.assert(typeof b === \"string\", 'typeof b === \"string\"');
+  if (typeof param === "number") {
+    throw new TypeError('Invalid JSDoc @param: typeof param === "number"');
+  }
+
+  if (typeof b === "string") {
+    throw new TypeError('Invalid JSDoc @param: typeof b === "string"');
+  }
 }`);
     });
 });
