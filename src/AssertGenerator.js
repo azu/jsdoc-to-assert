@@ -40,6 +40,54 @@ export default class AssertGenerator {
     }
 
     /**
+     * create assertion string from `typeNode` and `name`.
+     * @param {string} [name] variable name
+     * @param {{title:string, type:Object}} typeNode
+     * @param {CodeGenerator} Generator
+     * @returns {string|undefined}
+     */
+    static createAssertFromTypeTag(name, typeNode, Generator = CodeGenerator) {
+        if (name === undefined) {
+            return;
+        }
+        const title = typeNode.title;
+        // @returns etc... are not param
+        if (title !== "type") {
+            return;
+        }
+        // @param x - x have not type
+        if (typeNode.type == null) {
+            return;
+        }
+
+        const generator = new Generator(typeNode);
+        const tagType = typeNode.type.type;
+        const node = {
+            name,
+            type: typeNode.type
+        };
+        if (tagType === "NameExpression") {
+            return NameExpression(node, generator);
+        } else if (tagType === "AllLiteral") {
+            return AllLiteral(node, generator);
+        } else if (tagType === "FunctionType") {
+            return FunctionType(node, generator);
+        } else if (tagType === "RecordType") {
+            return RecordType(node, generator);
+        } else if (tagType === "UnionType") {
+            return UnionType(node, generator);
+        } else if (tagType === "TypeApplication") {
+            return TypeApplication(node, generator);
+        } else if (tagType === "RestType") {
+            return RestType(node, generator);
+        } else if (tagType === "NullableType") {
+            return NullableType(node, generator);
+        } else if (tagType === "NonNullableType") {
+            return NonNullableType(node, generator);
+        }
+    }
+
+    /**
      * @param tagNode tagNode is defined by doctorin
      * @param {CodeGenerator} Generator
      * @return {string|undefined} return assertion code string
