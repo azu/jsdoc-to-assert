@@ -4,10 +4,10 @@ const doctrine = require('doctrine');
 import AssertGenerator from "./AssertGenerator"
 export default class CommentConverter {
     /**
-     * Parse comment nodes which is provided by JavaScript parser like esprima, babylon
+     * Parse @param comment nodes which is provided by JavaScript parser like esprima, babylon
      * and return assertions code strings.
      * This is mutable function.
-     * @param {Array<Object>} comment
+     * @param {Object} comment
      * @param {AssertGeneratorOptions} [options]
      * @returns {string[]}
      */
@@ -19,6 +19,25 @@ export default class CommentConverter {
         try {
             const commentData = doctrine.parse(comment.value, {unwrap: true});
             return AssertGenerator.createAsserts(commentData, options);
+        } catch (error) {
+            error.message = "jsdoc-to-assert: JSDoc Parse Error:\n" + error.message;
+            throw error;
+        }
+    }
+
+    /**
+     * Parse @type comment nodes which is provided by JavaScript parser like esprima, babylon
+     * and return assertions code strings.
+     * This is mutable function.
+     * @param {string} variableName
+     * @param {Object} comment
+     * @param {AssertGeneratorOptions} [options]
+     * @returns {string}
+     */
+    static toTypeAssert(variableName, comment, options) {
+        try {
+            const commentData = doctrine.parse(comment.value, {unwrap: true});
+            return AssertGenerator.createAssertFromTypeTag(variableName, commentData, options);
         } catch (error) {
             error.message = "jsdoc-to-assert: JSDoc Parse Error:\n" + error.message;
             throw error;
