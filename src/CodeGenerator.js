@@ -26,6 +26,6 @@ export default class CodeGenerator {
         // TODO: more safe using AST?
         const trimmedExpression = trimSpaceEachLine(expression);
         const noSpaceExpression = trimmedExpression.replace(/\n/g, "\\n");
-        return `console.assert(${trimmedExpression}, 'Invalid JSDoc @param: ${noSpaceExpression}');`;
+        return `console.assert(${trimmedExpression}, 'Invalid JSDoc: ${noSpaceExpression}');`;
     }
 }
