@@ -32,12 +32,12 @@ export default class CommentConverter {
      * @param {string} variableName
      * @param {Object} comment
      * @param {AssertGeneratorOptions} [options]
-     * @returns {string}
+     * @returns {string[]}
      */
-    static toTypeAssert(variableName, comment, options) {
+    static toTypeAsserts(variableName, comment, options) {
         try {
             const commentData = doctrine.parse(comment.value, {unwrap: true});
-            return AssertGenerator.createAssertFromTypeTag(variableName, commentData, options);
+            return AssertGenerator.createTypeAsserts(variableName, commentData, options);
         } catch (error) {
             error.message = "jsdoc-to-assert: JSDoc Parse Error:\n" + error.message;
             throw error;

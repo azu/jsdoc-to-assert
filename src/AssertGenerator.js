@@ -40,6 +40,28 @@ export default class AssertGenerator {
     }
 
     /**
+     * create assertions from @type
+     * @param {string} name name is variable name
+     * @param {Array<Object>} comments AST's comment nodes. it should be BlockComment
+     * @param {AssertGeneratorOptions} options
+     * @returns {Array<String>} array of assertion
+     */
+    static createTypeAsserts(name, comments, options = {}) {
+        if (comments == null) {
+            return [];
+        }
+        const Generator = options.Generator || defaultOptions.Generator;
+        const isNotEmpty = (tag) => {
+            return tag != null;
+        };
+        // primitive
+        const createTag = (tag) => {
+            return AssertGenerator.createAssertFromTypeTag(name, tag, Generator);
+        };
+        return comments.tags.map(createTag).filter(isNotEmpty);
+    }
+
+    /**
      * create assertion string from `typeNode` and `name`.
      * @param {string} [name] variable name
      * @param {{title:string, type:Object}} typeNode
