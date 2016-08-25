@@ -18,7 +18,7 @@ export function Expression(tagName, typeValue) {
             const expectedName = typeValue.name;
             // nullable instanceof
             return `(
-                typeof ${expectedName} === "function" && ${tagName} instanceof ${expectedName}
+                typeof ${expectedName} === "undefined" || (typeof ${expectedName} === "function" && ${tagName} instanceof ${expectedName})
              )`;
         } else {
             return `typeof ${tagName} === "${expectedType}"`;
