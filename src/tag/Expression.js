@@ -16,9 +16,11 @@ export function Expression(tagName, typeValue) {
         const expectedType = typeofName(typeValue.name);
         if (expectedType == null) {
             const expectedName = typeValue.name;
-            // nullable instanceof
+            // if right-hand is undefined, return true
+            // if right-hand is not function, return true
+            // if right-hand is function && left instanceof right
             return `(
-                typeof ${expectedName} === "undefined" || (typeof ${expectedName} === "function" && ${tagName} instanceof ${expectedName})
+                typeof ${expectedName} === "undefined" || typeof ${expectedName} !== "function" || ${tagName} instanceof ${expectedName}
              )`;
         } else {
             return `typeof ${tagName} === "${expectedType}"`;
