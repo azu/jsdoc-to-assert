@@ -264,13 +264,19 @@ describe("create-assert", function() {
             astEqual(numberAssertion, `(typeof x === "number" || typeof x === "string")`);
         });
     });
-    //    context("when pass ...spread", function () {
-    //        it("should return ???", function () {
-    //            const jsdoc = `/**
-    // * @param {...number} param - this is spread param.
-    // */`;
-    //        });
-    //    });
+       context("when pass ...number", function () {
+           it("should return Array.isArray(param) && check every type", function () {
+               const jsdoc = `
+/**
+ * @param {...number} x - this is spread param.
+ */`;
+
+               const numberAssertion = createAssertion(jsdoc);
+               astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+    return typeof item === 'number';
+})`);
+           });
+       });
     context("when pass RecordType", function() {
         it("should assert foo.bar as NullableType ", function() {
             const jsdoc = `/**
