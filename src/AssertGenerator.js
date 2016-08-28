@@ -1,5 +1,6 @@
 // LICENSE : MIT
 "use strict";
+const ObjectAssign = require("object-assign");
 import {AllLiteral} from "./tag/AllLiteral";
 import {FunctionType} from "./tag/FunctionType";
 import {NameExpression} from "./tag/NameExpression";
@@ -82,11 +83,9 @@ export default class AssertGenerator {
             return;
         }
 
-        const node = {
-            name,
-            description: typeNode.description,
-            type: typeNode.type
-        };
+        const node = ObjectAssign({}, {
+            name
+        }, typeNode);
         const generator = new Generator(node);
         const tagType = typeNode.type.type;
         if (tagType === "NameExpression") {
