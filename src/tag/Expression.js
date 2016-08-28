@@ -16,9 +16,13 @@ export function Expression(tagName, typeValue) {
         const expectedType = typeofName(typeValue.name);
         if (expectedType == null) {
             const expectedName = typeValue.name;
-            // if right-hand is undefined, return true
+            // if right-hand(expectedName) is undefined, return true
             // if right-hand is not function, return true
-            // if right-hand is function && left instanceof right
+            // if right-hand is function && left-hand(tagName) instanceof right-hand(expectedName)
+            // expectation, if left-hand is Array, use Array.isArray
+            if (expectedName === "Array") {
+                return `Array.isArray(${tagName})`;
+            }
             return `(
                 typeof ${expectedName} === "undefined" || typeof ${expectedName} !== "function" || ${tagName} instanceof ${expectedName}
              )`;
