@@ -176,10 +176,10 @@ describe("create-assert", function() {
         it("should return assert typeof nullable", function() {
             const A = {};
             const jsdoc = `/**
- * @param {A} x - this is ArrayType param.
+ * @param {CustomType} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof A === 'undefined' || typeof A !== 'function' || x instanceof A`);
+            astEqual(numberAssertion, `typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType`);
         });
     });
     context("when pass Array only", function() {
