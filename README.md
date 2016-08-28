@@ -6,6 +6,24 @@ Easy to use it with Babel.
 
 - [azu/babel-plugin-jsdoc-to-assert: Babel plugin for jsdoc-to-assert.](https://github.com/azu/babel-plugin-jsdoc-to-assert "azu/babel-plugin-jsdoc-to-assert: Babel plugin for jsdoc-to-assert.")
 
+## Example
+
+jsdoc-to-assert create detection expression string:
+
+```js
+Array.isArray(x) && x.every(function (item) {
+    return typeof item === 'number';
+});
+``` 
+
+from following JSDoc comment:
+
+```js
+/**
+ * @param {number[]} x 
+ */
+```
+
 ## Installation
 
     npm install jsdoc-to-assert
@@ -15,7 +33,6 @@ Easy to use it with Babel.
 ```js
 import {AssertGenerator, CommentConverter, CodeGenerator} from "jsdoc-to-assert";
 ```
-
 
 ### AssertGenerator class
 
