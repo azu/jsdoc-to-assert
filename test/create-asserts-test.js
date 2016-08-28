@@ -182,16 +182,48 @@ describe("create-assert", function() {
             astEqual(numberAssertion, `typeof A === 'undefined' || typeof A !== 'function' || x instanceof A`);
         });
     });
-    context("when pass ArrayType", function() {
-        it("should return assert typeof nullable", function() {
+    context("when pass Array only", function() {
+        it("should return Array.isArray(x)", function() {
             const jsdoc = `/**
- * @param {number[]} x - this is ArrayType param.
+ * @param {Array} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `Array.isArray(x)`);
         });
     });
-
+    context("when pass *[]", function() {
+        it("should return Array.isArray(x)", function() {
+            const jsdoc = `/**
+ * @param {*[]} x
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+    return typeof undefined === 'undefined' || typeof undefined !== 'function' || item instanceof undefined;
+});`);
+        });
+    });
+    context("when pass number[]", function() {
+        it("should return Array.isArray(array) && check every type", function() {
+            const jsdoc = `/**
+ * @param {number[]} x - this is ArrayType param.
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+    return typeof item === 'number';
+});`);
+        });
+    });
+    context("when pass CustomType[]", function() {
+        it("should return Array.isArray(array) && check every type", function() {
+            const jsdoc = `/**
+ * @param {CustomType[]} x - this is ArrayType param.
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+    return typeof CustomType === 'undefined' || typeof CustomType !== 'function' || item instanceof CustomType;
+});`);
+        });
+    });
     context("when pass nullable", function() {
         it("should return assert typeof nullable", function() {
             const jsdoc = `/**
@@ -262,13 +294,15 @@ describe("create-assert", function() {
             astEqual(numberAssertion, `typeof x.foo === 'number' && (typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp)`);
         });
     });
-    context("When generic", function() {
-        it("should return ", function() {
+    context("When pass Array.<string>", function() {
+        it("should return Array.isArray(x) && check every type", function() {
             const jsdoc = `/**
- * @param {Array<string>} x - this is Array param.
+ * @param {Array.<string>} x - this is Array param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x);`);
+            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+    return typeof item === 'string';
+});`);
         });
     });
 });
