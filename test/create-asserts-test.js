@@ -272,7 +272,6 @@ describe("create-assert", function() {
  */`;
 
                const numberAssertion = createAssertion(jsdoc);
-               console.log(numberAssertion);
                astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
     return typeof item === 'number';
 })`);

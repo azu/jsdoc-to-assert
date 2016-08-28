@@ -64,7 +64,7 @@ export default class AssertGenerator {
     /**
      * create assertion string from `typeNode` and `name`.
      * @param {string} [name] variable name
-     * @param {{title:string, type:Object}} typeNode
+     * @param {{title:string, description: ?string, type:Object}} typeNode
      * @param {CodeGenerator} Generator
      * @returns {string|undefined}
      */
@@ -82,12 +82,13 @@ export default class AssertGenerator {
             return;
         }
 
-        const generator = new Generator(typeNode);
-        const tagType = typeNode.type.type;
         const node = {
             name,
+            description: typeNode.description,
             type: typeNode.type
         };
+        const generator = new Generator(node);
+        const tagType = typeNode.type.type;
         if (tagType === "NameExpression") {
             return NameExpression(node, generator);
         } else if (tagType === "AllLiteral") {
