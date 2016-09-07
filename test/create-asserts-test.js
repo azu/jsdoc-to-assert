@@ -182,6 +182,16 @@ describe("create-assert", function() {
             astEqual(numberAssertion, `typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType`);
         });
     });
+    context("when pass Object.Property type", function() {
+        it("should return assert typeof nullable", function() {
+            const A = {};
+            const jsdoc = `/**
+ * @param {Object.Property} x - this is ArrayType param.
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, "true");
+        });
+    });
     context("when pass Array only", function() {
         it("should return Array.isArray(x)", function() {
             const jsdoc = `/**
