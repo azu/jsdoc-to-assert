@@ -16,6 +16,10 @@ export function Expression(tagName, typeValue) {
         const expectedType = typeofName(typeValue.name);
         if (expectedType == null) {
             const expectedName = typeValue.name;
+            // Can not handle Object.Property type like @param {Custom.Type}
+            if (/\w+\.\w+/.test(expectedName)) {
+                return "true";
+            }
             // if right-hand(expectedName) is undefined, return true
             // if right-hand is not function, return true
             // if right-hand is function && left-hand(tagName) instanceof right-hand(expectedName)
