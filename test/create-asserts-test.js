@@ -170,7 +170,7 @@ describe("create-assert", function() {
  */`;
             const assertion = createAssertion(jsdoc);
             astEqual(assertion, `
-                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!RegExp && typeof RegExp[Symbol.hasInstance] === "function" ?
+                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof RegExp !== "undefined" && typeof RegExp[Symbol.hasInstance] === "function" ?
                 RegExp[Symbol.hasInstance](x) :
                 typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x instanceof RegExp
             `);
@@ -184,7 +184,7 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `
-                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!CustomType && typeof CustomType[Symbol.hasInstance] === "function" ?
+                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof CustomType !== "undefined" && typeof CustomType[Symbol.hasInstance] === "function" ?
                 CustomType[Symbol.hasInstance](x) :
                 typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType
             `);
@@ -216,7 +216,7 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
-    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!undefined && typeof undefined[Symbol.hasInstance] === "function" ?
+    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof undefined !== "undefined" && typeof undefined[Symbol.hasInstance] === "function" ?
         undefined[Symbol.hasInstance](item) :
         typeof undefined === 'undefined' || typeof undefined !== 'function' || item instanceof undefined;
 });`);
@@ -240,7 +240,7 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
-    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!CustomType && typeof CustomType[Symbol.hasInstance] === "function" ?
+    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof CustomType !== "undefined" && typeof CustomType[Symbol.hasInstance] === "function" ?
         CustomType[Symbol.hasInstance](item) :
         typeof CustomType === 'undefined' || typeof CustomType !== 'function' || item instanceof CustomType;
 });`);
@@ -320,7 +320,7 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `typeof x.foo === 'number' && (
-                  typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!RegExp && typeof RegExp[Symbol.hasInstance] === "function" ?
+                  typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof RegExp !== "undefined" && typeof RegExp[Symbol.hasInstance] === "function" ?
                   RegExp[Symbol.hasInstance](x.bar) :
                   typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp
                 )

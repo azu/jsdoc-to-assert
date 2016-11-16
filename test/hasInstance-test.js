@@ -7,7 +7,7 @@ const notUse_hasInstance = {};
 function createCustomTypeAssertFunction(CustomType) {
     return function(value) {
         return (
-          typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!CustomType && typeof CustomType[Symbol.hasInstance] === "function" ?
+          typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof CustomType !== "undefined" && typeof CustomType[Symbol.hasInstance] === "function" ?
           CustomType[Symbol.hasInstance](value) :
           notUse_hasInstance
         );
@@ -46,7 +46,7 @@ describe("hasInstance", function() {
     });
     context("object without [Symbol.hasInstance]", function() {
         it("should not use [Symbol.hasInstance]()", function() {
-            const assertFunc = createCustomTypeAssertFunction(null);
+            const assertFunc = createCustomTypeAssertFunction({});
 
             assert(assertFunc(100) === notUse_hasInstance);
             assert(assertFunc(200) === notUse_hasInstance);
