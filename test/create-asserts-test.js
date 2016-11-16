@@ -169,7 +169,11 @@ describe("create-assert", function() {
  * @param {RegExp} x - this is RegExp.
  */`;
             const assertion = createAssertion(jsdoc);
-            astEqual(assertion, `typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x instanceof RegExp`);
+            astEqual(assertion, `
+                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!RegExp && typeof RegExp[Symbol.hasInstance] === "function" ?
+                RegExp[Symbol.hasInstance](x) :
+                typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x instanceof RegExp
+            `);
         });
     });
     context("when pass Custom Object", function() {
@@ -179,7 +183,11 @@ describe("create-assert", function() {
  * @param {CustomType} x - this is ArrayType param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType`);
+            astEqual(numberAssertion, `
+                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!CustomType && typeof CustomType[Symbol.hasInstance] === "function" ?
+                CustomType[Symbol.hasInstance](x) :
+                typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType
+            `);
         });
     });
     context("when pass Object.Property type", function() {
@@ -208,7 +216,9 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
-    return typeof undefined === 'undefined' || typeof undefined !== 'function' || item instanceof undefined;
+    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!undefined && typeof undefined[Symbol.hasInstance] === "function" ?
+        undefined[Symbol.hasInstance](item) :
+        typeof undefined === 'undefined' || typeof undefined !== 'function' || item instanceof undefined;
 });`);
         });
     });
@@ -230,7 +240,9 @@ describe("create-assert", function() {
  */`;
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
-    return typeof CustomType === 'undefined' || typeof CustomType !== 'function' || item instanceof CustomType;
+    return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!CustomType && typeof CustomType[Symbol.hasInstance] === "function" ?
+        CustomType[Symbol.hasInstance](item) :
+        typeof CustomType === 'undefined' || typeof CustomType !== 'function' || item instanceof CustomType;
 });`);
         });
     });
@@ -307,7 +319,12 @@ describe("create-assert", function() {
  * @param {{foo: number, bar: RegExp}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x.foo === 'number' && (typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp)`);
+            astEqual(numberAssertion, `typeof x.foo === 'number' && (
+                  typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!RegExp && typeof RegExp[Symbol.hasInstance] === "function" ?
+                  RegExp[Symbol.hasInstance](x.bar) :
+                  typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp
+                )
+            `);
         });
     });
     context("When pass Array.<string>", function() {

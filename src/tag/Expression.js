@@ -28,8 +28,10 @@ export function Expression(tagName, typeValue) {
                 return `Array.isArray(${tagName})`;
             }
             return `(
+                typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && !!${expectedName} && typeof ${expectedName}[Symbol.hasInstance] === "function" ?
+                ${expectedName}[Symbol.hasInstance](${tagName}) :
                 typeof ${expectedName} === "undefined" || typeof ${expectedName} !== "function" || ${tagName} instanceof ${expectedName}
-             )`;
+            )`;
         } else {
             return `typeof ${tagName} === "${expectedType}"`;
         }
