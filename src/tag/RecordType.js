@@ -1,6 +1,7 @@
 // LICENSE : MIT
 "use strict";
 //  * @param {{foo: ?number, bar: string}} x - this is object param.
+//  * @param {{foo, bar}} x - this is object param.
 import {Expression} from "./Expression";
 /**
  * @return {string}
