@@ -63,12 +63,12 @@ describe("create-assert", function() {
             const assertions = createAsserts(parse(jsdoc));
             assert(assertions.length, 2);
         });
-        it("should not contain line break in each assetion", function() {
+        it("should not contain line break in each assertions", function() {
             const jsdoc = `/**
  * matchAll function inspired String.prototype.matchAll
  * @param {string} text
  * @param {RegExp} regExp
- * @param {{ 
+ * @param {{
     
  foo: String 
  
@@ -78,7 +78,12 @@ describe("create-assert", function() {
  */`;
             const assertions = createAsserts(parse(jsdoc));
             assertions.forEach(assertion => {
-                esprima.parse(assertion);
+                try {
+                    esprima.parse(assertion);
+                } catch (error) {
+                    console.log(assertion);
+                    throw error;
+                }
             });
         });
     });
@@ -305,33 +310,28 @@ describe("create-assert", function() {
 * @param {{SubscriptionId,Data}} data
 */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof data.SubscriptionId !== 'undefined' && typeof data.Data !== 'undefined';`);
+            astEqual(numberAssertion, `typeof data !== 'undefined' && typeof data.SubscriptionId !== 'undefined' && typeof data.Data !== 'undefined';`);
         });
         it("should assert foo.bar as NullableType ", function() {
             const jsdoc = `/**
  * @param {{foo: ?number, bar: string}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `((x.foo == null || typeof x.foo === "number") && typeof x.bar === "string")`);
+            astEqual(numberAssertion, `typeof x !== 'undefined' && (x.foo == null || typeof x.foo === 'number') && typeof x.bar === 'string';`);
         });
         it("should return assert foo filed with &&", function() {
             const jsdoc = `/**
  * @param {{foo: number, bar: string}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(typeof x.foo === "number" && typeof x.bar === "string")`);
+            astEqual(numberAssertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && typeof x.bar === 'string';`);
         });
         it("should return assert Custom filed with &&", function() {
             const jsdoc = `/**
  * @param {{foo: number, bar: RegExp}} x - this is object param.
  */`;
             const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x.foo === 'number' && (
-                  typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof RegExp !== "undefined" && typeof RegExp[Symbol.hasInstance] === "function" ?
-                  RegExp[Symbol.hasInstance](x.bar) :
-                  typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp
-                )
-            `);
+            astEqual(numberAssertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && (typeof Symbol === 'function' && typeof Symbol.hasInstance === 'symbol' && typeof RegExp !== 'undefined' && typeof RegExp[Symbol.hasInstance] === 'function' ? RegExp[Symbol.hasInstance](x.bar) : typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp);`);
         });
     });
     context("When pass Array.<string>", function() {

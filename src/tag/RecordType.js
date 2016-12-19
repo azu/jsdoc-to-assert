@@ -9,9 +9,14 @@ import {Expression} from "./Expression";
 export function RecordType(tag, CodeGenerator) {
     const fields = tag.type.fields;
     const isFiledType = filed => filed.type === "FieldType";
-    const expression = fields.filter(isFiledType).map(field => {
+    // It is {{}}-self
+    const recordTypeAssertion = `typeof ${tag.name} !== "undefined"`;
+    // These are {{ xxx }}
+    const propertyAssertions = fields.filter(isFiledType).map(field => {
         const fieldPath = `${tag.name}.${field.key}`;
         return Expression(fieldPath, field.value);
-    }).join(" && ");
+    });
+    // join &&
+    const expression = [recordTypeAssertion].concat(propertyAssertions).join(" && ");
     return CodeGenerator.assert(expression);
 }
