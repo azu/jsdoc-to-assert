@@ -4,6 +4,11 @@
  * @return {string}
  */
 export function Expression(tagName, typeValue) {
+    // https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler#record-type
+    // > myObject that has a value of **any** type.
+    if (typeValue === null) {
+        return `typeof ${tagName} !== "undefined"`;
+    }
     if (typeValue.type && typeValue.type === "NullableType") {
         // recursion
         const otherExpression = Expression(tagName, typeValue.expression);
