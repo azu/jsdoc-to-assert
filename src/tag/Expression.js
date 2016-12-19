@@ -48,6 +48,7 @@ export function typeofName(nodeTypeName) {
         case "Object":
         case "object":
             return "object";
+        case "function":
         case "Function":
             return "function";
         case "string":
@@ -61,8 +62,8 @@ export function typeofName(nodeTypeName) {
             return "boolean";
         case "undefined":
             return "undefined";
-        case "Symbol":
         case "symbol":
+        case "Symbol":
             return "symbol";
         default:
             return;

@@ -150,6 +150,13 @@ describe("create-assert", function() {
             const numberAssertion = createAssertion(jsdoc);
             astEqual(numberAssertion, `typeof x === "function"`);
         });
+        it("should return assert typeof function", function() {
+            const jsdoc = `/**
+ * @param {function} x
+ */`;
+            const numberAssertion = createAssertion(jsdoc);
+            astEqual(numberAssertion, `typeof x === "function"`);
+        });
         it("should return assert typeof object", function() {
             const jsdoc = `/**
  * @param {Object} x
