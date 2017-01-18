@@ -93,8 +93,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            assert(numberAssertion == null);
+            const assertion = createAssertion(jsdoc);
+            assert(assertion == null);
         });
     });
     context("when pass @return", function() {
@@ -103,8 +103,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @returns {Array}
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            assert(numberAssertion == null);
+            const assertion = createAssertion(jsdoc);
+            assert(assertion == null);
         });
     });
     context("when pass jsdoc", function() {
@@ -126,43 +126,43 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {number} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "number"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "number"`);
         });
         it("should return assert typeof string", function() {
             const jsdoc = `/**
  * @param {string} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "string"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "string"`);
         });
         it("should return assert typeof boolean", function() {
             const jsdoc = `/**
  * @param {boolean} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "boolean"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "boolean"`);
         });
         it("should return assert typeof function", function() {
             const jsdoc = `/**
  * @param {Function} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "function"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "function"`);
         });
         it("should return assert typeof function", function() {
             const jsdoc = `/**
  * @param {function} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "function"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "function"`);
         });
         it("should return assert typeof object", function() {
             const jsdoc = `/**
  * @param {Object} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "object"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "object"`);
         });
     });
     context("When pass all type", function() {
@@ -170,8 +170,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {*} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x !== "undefined"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x !== "undefined"`);
         });
     });
     context("when pass RegExp", function() {
@@ -194,8 +194,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {CustomType} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `
                 typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof CustomType !== "undefined" && typeof CustomType[Symbol.hasInstance] === "function" ?
                 CustomType[Symbol.hasInstance](x) :
                 typeof CustomType === 'undefined' || typeof CustomType !== 'function' || x instanceof CustomType
@@ -208,8 +208,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {Object.Property} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, "true");
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, "true");
         });
     });
     context("when pass Array only", function() {
@@ -217,8 +217,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {Array} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x)`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x)`);
         });
     });
     context("when pass *[]", function() {
@@ -226,8 +226,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {*[]} x
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x) && x.every(function (item) {
     return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof undefined !== "undefined" && typeof undefined[Symbol.hasInstance] === "function" ?
         undefined[Symbol.hasInstance](item) :
         typeof undefined === 'undefined' || typeof undefined !== 'function' || item instanceof undefined;
@@ -239,8 +239,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {number[]} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x) && x.every(function (item) {
     return typeof item === 'number';
 });`);
         });
@@ -250,8 +250,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {CustomType[]} x - this is ArrayType param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x) && x.every(function (item) {
     return typeof Symbol === "function" && typeof Symbol.hasInstance === "symbol" && typeof CustomType !== "undefined" && typeof CustomType[Symbol.hasInstance] === "function" ?
         CustomType[Symbol.hasInstance](item) :
         typeof CustomType === 'undefined' || typeof CustomType !== 'function' || item instanceof CustomType;
@@ -263,8 +263,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {?number} x - this is nullable param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(x == null || typeof x === "number")`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `(x == null || typeof x === "number")`);
         });
     });
     context("when pass NonNullableType", function() {
@@ -272,8 +272,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {!number} x - this is non-nullable param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(x != null && typeof x === "number")`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `(x != null && typeof x === "number")`);
         });
     });
     context("when pass callback function", function() {
@@ -281,8 +281,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {function(foo: number, bar: string): boolean} x - this is function param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x === "function"`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === "function"`);
         });
 
     });
@@ -294,8 +294,8 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {number|string} x - this is union param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `(typeof x === "number" || typeof x === "string")`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `(typeof x === "number" || typeof x === "string")`);
         });
     });
     context("when pass ...number", function() {
@@ -305,8 +305,8 @@ describe("create-assert", function() {
  * @param {...number} x - this is spread param.
  */`;
 
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x) && x.every(function (item) {
     return typeof item === 'number';
 })`);
         });
@@ -316,29 +316,29 @@ describe("create-assert", function() {
             const jsdoc = `/**
 * @param {{SubscriptionId,Data}} data
 */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof data !== 'undefined' && typeof data.SubscriptionId !== 'undefined' && typeof data.Data !== 'undefined';`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof data !== 'undefined' && typeof data.SubscriptionId !== 'undefined' && typeof data.Data !== 'undefined';`);
         });
         it("should assert foo.bar as NullableType ", function() {
             const jsdoc = `/**
  * @param {{foo: ?number, bar: string}} x - this is object param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x !== 'undefined' && (x.foo == null || typeof x.foo === 'number') && typeof x.bar === 'string';`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x !== 'undefined' && (x.foo == null || typeof x.foo === 'number') && typeof x.bar === 'string';`);
         });
-        it("should return assert foo filed with &&", function() {
+        it("should return assert foo field with &&", function() {
             const jsdoc = `/**
  * @param {{foo: number, bar: string}} x - this is object param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && typeof x.bar === 'string';`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && typeof x.bar === 'string';`);
         });
-        it("should return assert Custom filed with &&", function() {
+        it("should return assert Custom field with &&", function() {
             const jsdoc = `/**
  * @param {{foo: number, bar: RegExp}} x - this is object param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && (typeof Symbol === 'function' && typeof Symbol.hasInstance === 'symbol' && typeof RegExp !== 'undefined' && typeof RegExp[Symbol.hasInstance] === 'function' ? RegExp[Symbol.hasInstance](x.bar) : typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp);`);
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x !== 'undefined' && typeof x.foo === 'number' && (typeof Symbol === 'function' && typeof Symbol.hasInstance === 'symbol' && typeof RegExp !== 'undefined' && typeof RegExp[Symbol.hasInstance] === 'function' ? RegExp[Symbol.hasInstance](x.bar) : typeof RegExp === 'undefined' || typeof RegExp !== 'function' || x.bar instanceof RegExp);`);
         });
     });
     context("When pass Array.<string>", function() {
@@ -346,9 +346,20 @@ describe("create-assert", function() {
             const jsdoc = `/**
  * @param {Array.<string>} x - this is Array param.
  */`;
-            const numberAssertion = createAssertion(jsdoc);
-            astEqual(numberAssertion, `Array.isArray(x) && x.every(function (item) {
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `Array.isArray(x) && x.every(function (item) {
     return typeof item === 'string';
+});`);
+        });
+    });
+    context("When pass Object<string, number>", function() {
+        it("should check object itself and every object value", function() {
+            const jsdoc = `/**
+ * @param {Object<string, number>} x - this is Object param with string keys and number values.
+ */`;
+            const assertion = createAssertion(jsdoc);
+            astEqual(assertion, `typeof x === 'object' && Object.keys(x).every(function (key) {
+    return typeof x[key]  === 'number';
 });`);
         });
     });

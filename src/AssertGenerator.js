@@ -88,29 +88,32 @@ export default class AssertGenerator {
         }, typeNode);
         const generator = new Generator(node);
         const tagType = typeNode.type.type;
-        if (tagType === "NameExpression") {
-            return NameExpression(node, generator);
-        } else if (tagType === "AllLiteral") {
-            return AllLiteral(node, generator);
-        } else if (tagType === "FunctionType") {
-            return FunctionType(node, generator);
-        } else if (tagType === "RecordType") {
-            return RecordType(node, generator);
-        } else if (tagType === "UnionType") {
-            return UnionType(node, generator);
-        } else if (tagType === "TypeApplication") {
-            return TypeApplication(node, generator);
-        } else if (tagType === "RestType") {
-            return RestType(node, generator);
-        } else if (tagType === "NullableType") {
-            return NullableType(node, generator);
-        } else if (tagType === "NonNullableType") {
-            return NonNullableType(node, generator);
+        switch (tagType) {
+            case "NameExpression":
+                return NameExpression(node, generator);
+            case "AllLiteral":
+                return AllLiteral(node, generator);
+            case "FunctionType":
+                return FunctionType(node, generator);
+            case "RecordType":
+                return RecordType(node, generator);
+            case "UnionType":
+                return UnionType(node, generator);
+            case "TypeApplication":
+                return TypeApplication(node, generator);
+            case "RestType":
+                return RestType(node, generator);
+            case "NullableType":
+                return NullableType(node, generator);
+            case "NonNullableType":
+                return NonNullableType(node, generator);
+            default:
+                return;
         }
     }
 
     /**
-     * @param tagNode tagNode is defined by doctorin
+     * @param tagNode tagNode is defined by doctrine
      * @param {CodeGenerator} Generator
      * @return {string|undefined} return assertion code string
      * Reference https://esdoc.org/tags.html#type-syntax
@@ -128,24 +131,27 @@ export default class AssertGenerator {
         }
         const generator = new Generator(tagNode);
         const tagType = tagNode.type.type;
-        if (tagType === "NameExpression") {
-            return NameExpression(tagNode, generator);
-        } else if (tagType === "AllLiteral") {
-            return AllLiteral(tagNode, generator);
-        } else if (tagType === "FunctionType") {
-            return FunctionType(tagNode, generator);
-        } else if (tagType === "RecordType") {
-            return RecordType(tagNode, generator);
-        } else if (tagType === "UnionType") {
-            return UnionType(tagNode, generator);
-        } else if (tagType === "TypeApplication") {
-            return TypeApplication(tagNode, generator);
-        } else if (tagType === "RestType") {
-            return RestType(tagNode, generator);
-        } else if (tagType === "NullableType") {
-            return NullableType(tagNode, generator);
-        } else if (tagType === "NonNullableType") {
-            return NonNullableType(tagNode, generator);
+        switch (tagType) {
+            case "NameExpression":
+                return NameExpression(tagNode, generator);
+            case "AllLiteral":
+                return AllLiteral(tagNode, generator);
+            case "FunctionType":
+                return FunctionType(tagNode, generator);
+            case "RecordType":
+                return RecordType(tagNode, generator);
+            case "UnionType":
+                return UnionType(tagNode, generator);
+            case "TypeApplication":
+                return TypeApplication(tagNode, generator);
+            case "RestType":
+                return RestType(tagNode, generator);
+            case "NullableType":
+                return NullableType(tagNode, generator);
+            case "NonNullableType":
+                return NonNullableType(tagNode, generator);
+            default:
+                return;
         }
     }
-};
+}
