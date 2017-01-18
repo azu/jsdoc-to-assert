@@ -2,6 +2,7 @@
 "use strict";
 import {Expression} from "./Expression";
 // @param {Array.<string>}
+// @param {Object<string,number>}
 /**
  * @return {string|undefined}
  */
@@ -24,6 +25,13 @@ export function TypeApplication(tag, CodeGenerator) {
             return CodeGenerator.assert(`Array.isArray(${tag.name}) && ${expression}`);
         } else {
             return CodeGenerator.assert(`Array.isArray(${tag.name})`);
+        }
+    } else if (expectedType === "Object") {
+        const applications = tag.type.applications;
+        if (applications && applications.length === 2) {
+            const expression = Expression(`${tag.name}`, {name: "object"});
+            const itemExpression = Expression(`${tag.name}[key]`, applications[1]);
+            return CodeGenerator.assert(`${expression} && Object.keys(${tag.name}).every(function(key) { return (${itemExpression}); })`);
         }
     }
 }
